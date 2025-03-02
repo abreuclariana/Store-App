@@ -15,7 +15,7 @@ const Container = styled.div`
    align-items: center;
    gap: 20px;
 
-`
+`;
 const Title = styled.h1``
 
 function App() {

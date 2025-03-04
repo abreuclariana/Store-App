@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FaEdit, FaTrash} from "react-icons/fa";
+import { FaTrash, FaEdit} from "react-icons/fa";
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 
 const Thead = styled.thead``
@@ -36,8 +38,17 @@ const Td = styled.td`
 
 `
 
-const Grid = ({products}) => {
-    console.log(products)
+const Grid = ({products, setProducts}) => {
+    const handleDelete = async (id) => {
+        await axios.delete('http://localhost:4000/'+ id)
+            .then(( {data}) => {
+                const newArray = products.filter(( product) => product.id !== id)
+
+                setProducts(newArray)
+                toast.success(data)
+            })
+            .catch (({data}) => toast.error(data))
+    }
     return(
     
         <Table>
@@ -64,7 +75,7 @@ const Grid = ({products}) => {
                        </Td>
 
                        <Td>
-                          <FaTrash/>
+                          <FaTrash onClick={ () => handleDelete(item.id) }/>
                        </Td>
                     </Tr>
                   ))}
